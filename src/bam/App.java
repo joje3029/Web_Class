@@ -5,16 +5,19 @@ import java.util.List;
 import java.util.Scanner;
 
 import bam.dto.Article;
+import bam.dto.Member;
 import bam.util.Util;
 
 public class App {
 	private List<Article> articles;
 	private int lastArticleId;
+	private List<Member> memberes;
 
 	public App() {
 		articles = new ArrayList<>();
-//		articlesTitle = new ArrayList<>();
+		memberes = new ArrayList<>();
 		lastArticleId = 0;
+		
 	}
 
 	public void run() {
@@ -32,8 +35,45 @@ public class App {
 			if (cmd.equals("exit")) {
 				break;
 			}
+			
+			if(cmd.equals("member join")) {
+				
+				String logId = null;
+				while(true) {
+				System.out.printf("로그인 아이디 : ");
+				logId = sc.nextLine();
+				
+				 if(getMemberByID(logId) != null) {
+					 System.out.println("이미 존재하는 아이디 입니다.");
+					 continue;
+				 }
+				 break;
+				}
+				
+				String logPw = null;
+				 while(true) {
+				System.out.printf("로그인 비밀번호 : ");
+				logPw = sc.nextLine();
+				System.out.printf("로그인 비밀번호 확인 : ");
+				String logPwck = sc.nextLine();
 
-			if (cmd.equals("article write")) {
+				if(!logPw.equals(logPwck)) {
+					System.out.println("로그인 비밀번호를 확인해 주세요");
+					continue;
+				}
+				break;
+				 }
+				System.out.printf("이름 : ");
+				String name = sc.nextLine();
+				
+				System.out.printf("%s 회원님이 가입되었습니다.\n", name);
+				
+				Member member = new Member(logId, logPw, name);
+
+				memberes.add(member);
+				
+
+			}else if (cmd.equals("article write")) {
 				System.out.println("== 게시물 작성 ==");
 				int id = lastArticleId + 1;
 				lastArticleId = id;
@@ -83,32 +123,6 @@ public class App {
 
 					System.out.printf("%d	|	%s	|	%s	\n", article.id, article.title, article.regDate);
 				}
-//			완전 코드를 이상하게 짰어. 시도는 좋았으나 완전히 의도가 달랐다.				
-//			} else if (cmd.startsWith("article list ")) {	
-//				
-//				String cmdBits = cmd.substring(12).trim();
-				
-//				String[] cmdBits = cmd.split(" ");
-//				int id = Integer.parseInt(cmdBits[2]);
-//				
-//				Article foundArticle = getArticleByID(id);
-//				
-//				if (foundArticle == null) {
-//					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
-//					continue;
-//				}
-//				
-//				articlesTitle.add(foundArticle);
-//				
-//				System.out.println("== 게시물 목록 ==");
-//				System.out.println("번호	|	제목	|	작성일	");
-//
-//				for (int i = articlesTitle.size() - 1; i >= 0; i--) {
-//					Article article = articlesTitle.get(i);
-//
-//					System.out.printf("%d	|	%s	|	%s	\n", article.id, article.title, article.regDate);
-//				}
-				
 				
 			} else if (cmd.startsWith("article detail ")) {
 
@@ -199,6 +213,15 @@ public class App {
 			return article;
 		}
 	}
+		return null;
+	}
+	
+	private Member getMemberByID(String logId){
+		for(Member member : memberes) {
+			if(member.logId.equals(logId)) {
+				return member;
+			}
+		}
 		return null;
 	}
 }
