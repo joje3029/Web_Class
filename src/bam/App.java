@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import bam.controller.MemberController;
 import bam.dto.Article;
 import bam.dto.Member;
 import bam.util.Util;
@@ -11,11 +12,11 @@ import bam.util.Util;
 public class App {
 	private List<Article> articles;
 	private int lastArticleId;
-	private List<Member> memberes;
+	private List<Member> members;
 
 	public App() {
 		articles = new ArrayList<>();
-		memberes = new ArrayList<>();
+		members = new ArrayList<>();
 		lastArticleId = 0;
 		
 	}
@@ -27,6 +28,7 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 
+		MemberController memberController = new MemberController(members, sc);
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -37,42 +39,8 @@ public class App {
 			}
 			
 			if(cmd.equals("member join")) {
+				memberController.doJoin();
 				
-				String logId = null;
-				while(true) {
-				System.out.printf("로그인 아이디 : ");
-				logId = sc.nextLine();
-				
-				 if(getMemberByID(logId) != null) {
-					 System.out.println("이미 존재하는 아이디 입니다.");
-					 continue;
-				 }
-				 break;
-				}
-				
-				String logPw = null;
-				 while(true) {
-				System.out.printf("로그인 비밀번호 : ");
-				logPw = sc.nextLine();
-				System.out.printf("로그인 비밀번호 확인 : ");
-				String logPwck = sc.nextLine();
-
-				if(!logPw.equals(logPwck)) {
-					System.out.println("로그인 비밀번호를 확인해 주세요");
-					continue;
-				}
-				break;
-				 }
-				System.out.printf("이름 : ");
-				String name = sc.nextLine();
-				
-				System.out.printf("%s 회원님이 가입되었습니다.\n", name);
-				
-				Member member = new Member(logId, logPw, name);
-
-				memberes.add(member);
-				
-
 			}else if (cmd.equals("article write")) {
 				System.out.println("== 게시물 작성 ==");
 				int id = lastArticleId + 1;
@@ -216,14 +184,7 @@ public class App {
 		return null;
 	}
 	
-	private Member getMemberByID(String logId){
-		for(Member member : memberes) {
-			if(member.logId.equals(logId)) {
-				return member;
-			}
-		}
-		return null;
-	}
+
 }
 
 
