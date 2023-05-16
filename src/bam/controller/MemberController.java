@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import bam.dto.Member;
 
-public class MemberController {
+public class MemberController extends Controller {
 	
 	private List<Member> members;
 	private Scanner sc;
@@ -13,7 +13,19 @@ public class MemberController {
 		this.members = members;
 		this.sc = sc;
 	}
-	public void doJoin() {
+	
+	public void doAction(String cmd, String methodName) {
+		switch (methodName) {
+		case "join":
+			doJoin();
+			break;
+		default:
+			System.out.println("명령어를 확인해주세요");
+			break;
+		}
+	}
+	
+	private void doJoin() {
 		String logId = null;
 		while(true) {
 		System.out.printf("로그인 아이디 : ");
@@ -58,4 +70,6 @@ public class MemberController {
 		}
 		return null;
 	}
+
+
 }

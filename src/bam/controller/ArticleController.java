@@ -7,17 +7,45 @@ import java.util.Scanner;
 import bam.dto.Article;
 import bam.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
 	private List<Article> articles;
 	private Scanner sc;
 	private String cmd;
 	private int lastArticleId;
+	
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
 		this.sc = sc;
 		this.lastArticleId = 0;
 	}
+	
+	public void doAction(String cmd, String methodName) {
+		this.cmd= cmd;
+		
+		switch (methodName) {
+		case "write":
+			doWrite();
+			break;
+		case "list":
+			showList();
+			break;
+		case "detail":
+			showDetail();
+			break;	
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;	
+		default:
+			System.out.println("명령어를 확인해주세요");
+			break;
+		}
+	}
+	
+	
 	public void doWrite() {
 		System.out.println("== 게시물 작성 ==");
 		int id = lastArticleId + 1;
@@ -33,7 +61,7 @@ public class ArticleController {
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
 }
-	public void showList(String cmd) {
+	public void showList() {
 		if (articles.size() == 0) {
 			System.out.println("존재하는 게시물이 없습니다");
 			return;
@@ -70,8 +98,12 @@ public class ArticleController {
 		}
 		
 	}
-	public void showdetail(String cmd) {
+	public void showDetail() {
 		String[] cmdBits = cmd.split(" ");
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleByID(id);
@@ -89,10 +121,15 @@ public class ArticleController {
 
 	}
 	
-	public void domodify(String cmd) {
+	public void doModify() {
 		String[] cmdBits = cmd.split(" ");
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
 		int id = Integer.parseInt(cmdBits[2]);
-
+		
+		
 		Article foundArticle = getArticleByID(id);;
 
 		if (foundArticle == null) {
@@ -113,8 +150,12 @@ public class ArticleController {
 
 	}
 	
-	public void dodelete(String cmd2) {
+	public void doDelete() {
 		String[] cmdBits = cmd.split(" ");
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
 		int id = Integer.parseInt(cmdBits[2]);
 
 		Article foundArticle = getArticleByID(id);
@@ -139,7 +180,7 @@ public class ArticleController {
 		return null;
 	}
 	
-	public void makeTestData() {
+	public void makeTestData(){
 		System.out.println("테스트용 게시물 데이터 5개 생성");
 		
 		for (int i = 1; i <= 5; i++) {
