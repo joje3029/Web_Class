@@ -46,7 +46,7 @@ public class ArticleController extends Controller {
 	}
 	
 	
-	public void doWrite() {
+	private void doWrite() {
 		System.out.println("== 게시물 작성 ==");
 		int id = lastArticleId + 1;
 		lastArticleId = id;
@@ -61,7 +61,7 @@ public class ArticleController extends Controller {
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
 }
-	public void showList() {
+	private void showList() {
 		if (articles.size() == 0) {
 			System.out.println("존재하는 게시물이 없습니다");
 			return;
@@ -98,7 +98,7 @@ public class ArticleController extends Controller {
 		}
 		
 	}
-	public void showDetail() {
+	private void showDetail() {
 		String[] cmdBits = cmd.split(" ");
 		if(cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
@@ -121,7 +121,7 @@ public class ArticleController extends Controller {
 
 	}
 	
-	public void doModify() {
+	private void doModify() {
 		String[] cmdBits = cmd.split(" ");
 		if(cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
@@ -150,7 +150,7 @@ public class ArticleController extends Controller {
 
 	}
 	
-	public void doDelete() {
+	private void doDelete() {
 		String[] cmdBits = cmd.split(" ");
 		if(cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
