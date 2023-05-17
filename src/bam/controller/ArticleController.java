@@ -47,6 +47,13 @@ public class ArticleController extends Controller {
 	
 	
 	private void doWrite() {
+		
+		if(loginedMember == null) {
+			 System.out.println("로그인 되어있지 않습니다.");
+			 return;
+		 }
+		
+		
 		System.out.println("== 게시물 작성 ==");
 		int id = lastArticleId + 1;
 		lastArticleId = id;
@@ -55,7 +62,7 @@ public class ArticleController extends Controller {
 		System.out.printf("내용 : ");
 		String body = sc.nextLine();
 
-		Article article = new Article(id, Util.getDateStr(), title, body);
+		Article article = new Article(id, Util.getDateStr(), title, body, loginedMember.id);
 
 		articles.add(article);
 
@@ -191,7 +198,7 @@ public class ArticleController extends Controller {
 			String title = "제목" + i;
 			String body = "내용" + i;
 			
-			Article article = new Article(id, Util.getDateStr(), title, body);
+			Article article = new Article(id, Util.getDateStr(), title, body, 2);
 			articles.add(article);
 		}
 	}
