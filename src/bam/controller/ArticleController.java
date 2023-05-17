@@ -48,12 +48,6 @@ public class ArticleController extends Controller {
 	
 	private void doWrite() {
 		
-		if(loginedMember == null) {
-			 System.out.println("로그인 되어있지 않습니다.");
-			 return;
-		 }
-		
-		
 		System.out.println("== 게시물 작성 ==");
 		int id = lastArticleId + 1;
 		lastArticleId = id;
@@ -96,12 +90,12 @@ public class ArticleController extends Controller {
 		}
 		
 		System.out.println("== 게시물 목록 ==");
-		System.out.println("번호	|	제목	|	작성일	");
+		System.out.println("번호	|	제목	|	작성일	|	작성자");
 
 		for (int i = printArticles.size() - 1; i >= 0; i--) {
 			Article article = printArticles.get(i);
 
-			System.out.printf("%d	|	%s	|	%s	\n", article.id, article.title, article.regDate);
+			System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.memberId);
 		}
 		
 	}
@@ -125,10 +119,11 @@ public class ArticleController extends Controller {
 		System.out.printf("작성일 : %s\n", foundArticle.regDate);
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);
-
+		System.out.printf("작성자 : %s\n", foundArticle.memberId);
 	}
 	
 	private void doModify() {
+		
 		String[] cmdBits = cmd.split(" ");
 		if(cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
@@ -138,9 +133,15 @@ public class ArticleController extends Controller {
 		
 		
 		Article foundArticle = getArticleByID(id);;
+	
 
 		if (foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+			return;
+		}
+
+		if(loginedMember.id != foundArticle.id ) {
+			System.out.println("수정권한이 없습니다.");
 			return;
 		}
 
@@ -158,6 +159,7 @@ public class ArticleController extends Controller {
 	}
 	
 	private void doDelete() {
+		
 		String[] cmdBits = cmd.split(" ");
 		if(cmdBits.length == 2) {
 			System.out.println("명령어를 확인해주세요");
@@ -169,6 +171,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
+			return;
+		}
+		
+		if(loginedMember.id != foundArticle.id ) {
+			System.out.println("삭제권한이 없습니다.");
 			return;
 		}
 

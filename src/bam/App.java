@@ -31,6 +31,8 @@ public class App {
 		articleController.makeTestData();
 		memberController.makeTestData();
 		
+		Member loginedMember = null;
+		
 		while (true) {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
@@ -58,6 +60,25 @@ public class App {
 			}else {
 				System.out.println("존재하지 않는 명령어 입니다");
 				continue;
+			}
+			
+			switch (methodName) {
+			case "write":
+			case "modiry":
+			case "delete":
+			case "logout":	
+				if(Controller.loginedMember == null) {
+					 System.out.println("로그인 되어있지 않습니다.");
+					 continue;
+				}
+				break;
+			case "join":
+			case "login":
+				if(Controller.loginedMember != null) {
+					 System.out.println("로그아웃 후 이용해주세요.");
+					 continue;
+				}
+				break;
 			}
 			
 			controller.doAction(cmd, methodName);
