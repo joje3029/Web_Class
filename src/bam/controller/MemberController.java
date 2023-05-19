@@ -1,21 +1,18 @@
 package bam.controller;
 
-import java.util.List;
 import java.util.Scanner;
 
 import bam.dto.Member;
+import bam.service.MemberService;
 import bam.util.Util;
 
 public class MemberController extends Controller {
-	
-	private List<Member> members;
 	private Scanner sc;
-	private int lastMemberId;
+	private MemberService memberSevice;
 	
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		memberSevice = new MemberService();
 		this.sc = sc;
-		this.lastMemberId = 0;
 	}
 	
 	public void doAction(String cmd, String methodName) {
@@ -40,8 +37,7 @@ public class MemberController extends Controller {
 			System.out.println("로그아웃 후 이용해주세요");
 			return;
 		}
-		int id = lastMemberId + 1;
-		lastMemberId = id;
+		int id = memberSevice.setMemberId();
 		String logId = null;
 		
 		while(true) {
@@ -49,7 +45,7 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 아이디 : ");
 		logId = sc.nextLine();
 		
-		 if(getMemberByID(logId) != null) {
+		 if(memberSevice.getMemberByID(logId) != null) {
 			 System.out.println("이미 존재하는 아이디 입니다.");
 			 continue;
 		 }
@@ -75,7 +71,7 @@ public class MemberController extends Controller {
 		System.out.printf("%s 회원님이 가입되었습니다.\n", name);
 		
 		Member member = new Member(id, Util.getDateStr(), logId, logPw, name);
-		members.add(member);
+		memberSevice.add(member);
 		
 
 }
@@ -89,7 +85,7 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 아이디 : ");
 		String logId = sc.nextLine();
 		
-		 if(getMemberByID(logId) == null) {
+		 if(memberSevice.getMemberByID(logId) == null) {
 			 System.out.println("일치하는 회원이 없습니다.");
 			 return;
 		 }
@@ -110,7 +106,7 @@ public class MemberController extends Controller {
 		
 		 System.out.printf("%s 회원님이 로그인되었습니다.\n", logId);
 		 
-		 loginedMember = getMemberByID(logId);
+		 loginedMember =memberSevice.getMemberByID(logId);
 	}
 	
 	private void doLogOut() {
@@ -122,30 +118,10 @@ public class MemberController extends Controller {
 		System.out.println("로그인 상태가 아닙니다.");
 	}
 	
-	private Member getMemberByID(String logId){
-		for(Member member : members) {
-			if(member.logId.equals(logId)) {
-				return member;
-			}
-		}
-		return null;
-	}
-	
 	public void makeTestData(){
 		System.out.println("테스트용 회원 데이터 3개 생성");
-		
-		for (int i = 1; i <= 3; i++) {
-			
-			int id = lastMemberId + 1;
-			lastMemberId = id;
-			
-			String logId = "test" + i;
-			String logPw = "test" + i;
-			String name = "사용자" + i;
-			
-			Member member = new Member(id, Util.getDateStr(), logId, logPw, name );
-			members.add(member);
-		}
+		memberSevice.makeTestData();
 	}
+	
 
 }
