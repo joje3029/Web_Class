@@ -35,7 +35,6 @@ public class MemberDao {
 	}
 
 	public void makeTestData() {
-		System.out.println("테스트용 회원 데이터 3개 생성");
 		
 		for (int i = 1; i <= 3; i++) {
 			
