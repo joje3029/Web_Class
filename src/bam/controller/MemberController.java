@@ -2,6 +2,7 @@ package bam.controller;
 
 import java.util.Scanner;
 
+import bam.container.Container;
 import bam.dto.Member;
 import bam.service.MemberService;
 import bam.util.Util;
@@ -11,8 +12,8 @@ public class MemberController extends Controller {
 	private MemberService memberSevice;
 	
 	public MemberController(Scanner sc) {
-		memberSevice = new MemberService();
 		this.sc = sc;
+		this.memberSevice = Container.memberService;
 	}
 	
 	public void doAction(String cmd, String methodName) {

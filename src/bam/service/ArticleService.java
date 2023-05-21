@@ -1,23 +1,21 @@
 package bam.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import bam.container.Container;
 import bam.dao.ArticleDao;
-import bam.dao.MemberDao;
 import bam.dto.Article;
-import bam.util.Util;
 
 public class ArticleService {
 	
 	private ArticleDao articleDao;
 	
 	public ArticleService() {
-		articleDao = new ArticleDao();
+		articleDao = Container.articleDao;
 	}
 
 	public int setArticleId() {
-		return articleDao.setArticleId();
+		return articleDao.setLastId();
 		
 	}
 

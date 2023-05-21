@@ -1,5 +1,6 @@
 package bam.service;
 
+import bam.container.Container;
 import bam.dao.MemberDao;
 import bam.dto.Member;
 
@@ -8,11 +9,11 @@ public class MemberService {
 	private MemberDao memberDao;
 	
 	public MemberService(){
-		memberDao = new MemberDao(); 
+		memberDao = Container.memberDao; 
 	}
 
 	public int setMemberId() {
-		return memberDao.setMemberId();
+		return memberDao.setLastId();
 	}
 	
 	public void add(Member member) {

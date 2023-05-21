@@ -6,24 +6,17 @@ import java.util.List;
 import bam.dto.Article;
 import bam.util.Util;
 
-public class ArticleDao {
-	private int lastArticleId;
+public class ArticleDao extends Dao {
 	private List<Article> articles;
 	
 	public ArticleDao(){
-		this.lastArticleId=0;
 		this.articles = new ArrayList<>();
+		
 	}
-
-	public int setArticleId() {
-		int id = lastArticleId + 1;
-		lastArticleId = id;
-		return id;
-	}
-
 
 	public void add(Article article) {
 		articles.add(article);
+		lastId++;
 	}
 
 	public List<Article> getArticles(String searchKeyword) {
@@ -57,16 +50,13 @@ public class ArticleDao {
 	}
 
 	public void maketestData() {
-for (int i = 1; i <= 5; i++) {
-			
-			int id = lastArticleId + 1;
-			lastArticleId = id;
+		for (int i = 1; i <= 5; i++) {
 			
 			String title = "제목" + i;
 			String body = "내용" + i;
 			
-			Article article = new Article(id, Util.getDateStr(), title, body, 2);
-			articles.add(article);
+			Article article = new Article(setLastId(), Util.getDateStr(), title, body, 2);
+			add(article);
 		}
 		
 	}

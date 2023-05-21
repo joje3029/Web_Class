@@ -1,9 +1,9 @@
 package bam.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import bam.container.Container;
 import bam.dto.Article;
 import bam.service.ArticleService;
 import bam.util.Util;
@@ -15,9 +15,8 @@ public class ArticleController extends Controller {
 	private ArticleService articleService;
 	
 	public ArticleController(Scanner sc) {
-		this.articleService = new ArticleService();
 		this.sc = sc;
-		
+		this.articleService = Container.articleService;
 	}
 	
 	public void doAction(String cmd, String methodName) {
@@ -77,7 +76,7 @@ public class ArticleController extends Controller {
 		for (int i = printArticles.size() - 1; i >= 0; i--) {
 			Article article = printArticles.get(i);
 
-			System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.memberId);
+			System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article);
 		}
 		
 	}
